@@ -25,6 +25,34 @@ def pointat(curve, t):
     return curve.PointAt(t)
 
 
+import meshutils as mu
+
+@hops.component(
+    "/meshwalker",
+    name = "meshwalker",
+    inputs=[
+        hs.HopsMesh("Input Mesh", "M", "Mesh"),
+        hs.HopsInteger("Source", "S", "Source Vertex"),
+        hs.HopsInteger("Target", "T", "Target Vertex"),
+
+
+    ],
+    outputs=[
+        hs.HopsString("text","T","Graph string" ),
+        hs.HopsInteger("ShortestPath","SP","shortest path points", hs.HopsParamAccess.LIST )
+
+
+    ]
+)
+def meshToGraph(mesh, source, target):
+
+    G = mu.SimpleGraphFromMesh(mesh)
+    
+    sp = mu.graphShortestPath(G, source, target)
+    print(sp)
+
+    return str(G), sp
+
 
 
 
